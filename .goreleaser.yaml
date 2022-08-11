@@ -53,8 +53,6 @@ nfpms:
 
 publishers:
   - name: fury.io
-    ids:
-    - packages
     env:
     - 'FURY_TOKEN={{ .Env.FURY_TOKEN }}'
     # relative to cli/, where goreleaser runs from

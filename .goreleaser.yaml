@@ -57,7 +57,7 @@ publishers:
     - packages
     env:
     - 'FURY_TOKEN={{ .Env.FURY_TOKEN }}'
-    cmd: ./scripts/fury-upload.sh {{ .ArtifactName }}
+    cmd: ../scripts/fury-upload.sh {{ .ArtifactName }}
 
 brews:
 - tap:

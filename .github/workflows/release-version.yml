@@ -74,7 +74,7 @@ jobs:
           cache-dependency-path: go.work
       - shell: bash
         run: |
-          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
       - id: cache
         uses: actions/cache@v3
         with:
@@ -128,7 +128,7 @@ jobs:
       # copy the cashes from prepare
       - shell: bash
         run: |
-          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
       - uses: actions/cache@v3
         with:
           path: dist/linux

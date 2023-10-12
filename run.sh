@@ -79,10 +79,10 @@ tracetests() {
   SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
   export TRACETEST_CLI=${SCRIPT_DIR}/dist/tracetest
-  export TARGET_URL=http://localhost:11633
-  export TRACETEST_ENDPOINT=localhost:11633
-  export DEMO_APP_URL=http://demo-api:8081
-  export DEMO_APP_GRPC_URL=demo-rpc:8082
+  export TARGET_URL=${TARGET_URL:-http://localhost:11633}
+  export TRACETEST_ENDPOINT=${TRACETEST_ENDPOINT:-localhost:11633}
+  export DEMO_APP_URL=${DEMO_APP_URL:-http://demo-api:8081}
+  export DEMO_APP_GRPC_URL=${DEMO_APP_GRPC_URL:-demo-rpc:8082}
 
   cd testing/server-tracetesting
   ./run.bash

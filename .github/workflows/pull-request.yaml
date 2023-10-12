@@ -313,6 +313,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: kubeshop/tracetest-agent-action@main
+        with:
+          apiKey: ${{ secrets.TRACETEST_API_KEY }}
+
       - uses: actions/download-artifact@v3
         with:
           name: tracetest-dist
@@ -330,8 +334,23 @@ jobs:
         run: |
           chmod +x ./dist/tracetest ./dist/tracetest-server
 
-          ./scripts/wait-for-port.sh 11633
-          ./run.sh tracetests || (cat /tmp/docker-log; exit 1)
+          # Group stdin to stderr with title
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#grouping-log-lines
+          #   $1: group title
+          #   stdin: logs
+          #   stderr: grouped logs
+          #   $?: 0 if successful and non-zero otherwise
+          function kit::wf::group {
+            echo "::group::$1"      >&2
+            echo "$(< /dev/stdin)"  >&2
+            echo '::endgroup::'     >&2
+          }
+
+          # use tracetest cloud
+          export TRACETEST_ENDPOINT=api.tracetest.io
+
+          kit::wf::group 'Running tests' < ./run.sh tracetests
+          kit::wf::group 'Docker log' < /tmp/docker-log
 
   e2e-cli:
     name: CLI e2e tests
